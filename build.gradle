@@ -15,11 +15,13 @@ plugins {
 }
 
 // Define the main class for the application
-mainClassName = 'App'
+mainClassName = 'com.nazreenpe.hello_world_practice.App'
 
 dependencies {
     // This dependency is found on compile classpath of this component and consumers.
     compile 'com.google.guava:guava:23.0'
+
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.0.3.RELEASE'
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
