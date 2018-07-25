@@ -17,8 +17,12 @@ public class HelloResource {
         return map;
     }
 
-    @RequestMapping("/{name}")
-    public String helloName(@PathVariable("name") String name) {
-        return String.format("Hello %s, wazzup?", name);
+    @RequestMapping(path = "/{name}", consumes = "application/json", produces = "application/json")
+    public Map<String, String> helloName(@PathVariable("name") String name) {
+        String message = String.format("Hello %s", name);
+        Map map = new HashMap<String, String>();
+        map.put("message", message);
+        return map;
     }
+
 }
