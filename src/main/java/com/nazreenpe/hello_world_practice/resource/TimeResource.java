@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/time")
@@ -17,13 +19,17 @@ public class TimeResource {
         return localDateTime;
     }
 
-    @RequestMapping("/{format}")
-    public String formatTime(@PathVariable("format") String format) {
+    @RequestMapping(path = "/{format}", consumes = "application/json", produces = "application/json")
+    public Map<String, String > formatTime(@PathVariable("format") String format) {
         try {
             String time = LocalDateTime.now().format(DateTimeFormatter.ofPattern(format));
-            return time;
+            Map map = new HashMap<String, String>();
+            map.put("datetime", time);
+            return map;
         } catch (Exception e) {
-            return "Error: Wrong format";
+            Map errorMessage = new HashMap<String, String>();
+            errorMessage.put("Error", "Wrong Format");
+            return errorMessage;
         }
     }
 }
