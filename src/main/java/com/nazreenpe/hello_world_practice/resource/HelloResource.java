@@ -4,12 +4,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/hello")
 public class HelloResource {
-    @RequestMapping("")
-    public String hello() {
-        return "Hello World!";
+    @RequestMapping(path = "", consumes = "application/json", produces = "application/json")
+    public Map<String, String> hello() {
+        Map map = new HashMap<String, String>();
+        map.put("Message", "Hello World!");
+        return map;
     }
 
     @RequestMapping("/{name}")
