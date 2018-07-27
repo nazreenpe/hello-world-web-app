@@ -1,11 +1,9 @@
 package com.nazreenpe.hello_world_practice.resource;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,25 +21,28 @@ public class HelloResource {
     }
 
     @RequestMapping(path = "/{name}", produces = "application/json")
-    public Map<String, String> helloName(@PathVariable("name") String name,
-                                         @RequestHeader("Content-Type") String contentType,
-                                         HttpServletResponse response) {
+    public ResponseEntity<Map<String, String>> helloName(@PathVariable("name") String name,
+                                                         @RequestHeader("Content-Type") String contentType) {
         String message = String.format("Hello %s", name);
         Map map = new HashMap<String, String>();
         if (contentType.equals("application/json")) {
             if (name.equals("PokerFace")) {
-                response.setStatus(HttpServletResponse.SC_FOUND);
-                response.setHeader(HttpHeaders.LOCATION, "/hello");
+                return ResponseEntity
+                        .status(HttpStatus.FOUND)
+                        .header(HttpHeaders.LOCATION, "/hello")
+                        .body(null);
             } else {
                 map.put("message", message);
-                response.setStatus(200);
-                return map;
+                return ResponseEntity
+                        .ok(map);
             }
         } else {
-            response.setStatus(415);
             map.put("HTTP Status Code", "Unsupported Media Type");
+            return ResponseEntity
+                    .status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                    .body(null);
+
         }
-        return map;
     }
 
 }
