@@ -1,6 +1,8 @@
 package com.nazreenpe.hello_world_practice.resource;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,9 +29,14 @@ public class HelloResource {
         String message = String.format("Hello %s", name);
         Map map = new HashMap<String, String>();
         if (contentType.equals("application/json")) {
-            map.put("message", message);
-            response.setStatus(200);
-            return map;
+            if (name.equals("PokerFace")) {
+                response.setStatus(HttpServletResponse.SC_FOUND);
+                response.setHeader(HttpHeaders.LOCATION, "/hello");
+            } else {
+                map.put("message", message);
+                response.setStatus(200);
+                return map;
+            }
         } else {
             response.setStatus(415);
             map.put("HTTP Status Code", "Unsupported Media Type");
