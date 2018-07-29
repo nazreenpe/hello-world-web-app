@@ -57,7 +57,7 @@ public class HelloResource {
     }
 
     @RequestMapping(path = "/message", produces = "application/json")
-    public ResponseEntity<Map<String, String>> GetAlternateMessage() {
+    public ResponseEntity<Map<String, String>> getAlternateMessage() {
         count += 1;
         if (count % 2 == 0) {
             HashMap<String, String> map = new HashMap<String, String>();
@@ -72,5 +72,15 @@ public class HelloResource {
         }
     }
 
+    @RequestMapping(path = "/message/{name}")
+    public void messageForName(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
+        if (!name.equals("Naimer")) {
+            PrintWriter writer = response.getWriter();
+            String output = String.format("You have a message %s. It says you are amazing!", name);
+            writer.write(output);
+        } else {
+            response.setStatus(404);
+        }
+    }
 
 }
