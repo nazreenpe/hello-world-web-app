@@ -15,6 +15,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @RequestMapping("/hello")
 public class HelloResource {
+    private int count;
+
     @RequestMapping(method = RequestMethod.GET, path = "", consumes = APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Map<String, String> hello() {
         Map map = new HashMap<String, String>();
@@ -52,6 +54,22 @@ public class HelloResource {
         String output = String.format("Hello! Welcome %s", name);
         PrintWriter writer = response.getWriter();
         writer.write(output);
+    }
+
+    @RequestMapping(path = "/message", produces = "application/json")
+    public ResponseEntity<Map<String, String>> GetAlternateMessage() {
+        count += 1;
+        if (count % 2 == 0) {
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("message", "Lucky You!");
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(map);
+        } else {
+            return ResponseEntity
+                    .status(404)
+                    .body(null);
+        }
     }
 
 
