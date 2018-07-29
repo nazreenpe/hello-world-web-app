@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,5 +46,13 @@ public class HelloResource {
 
         }
     }
+
+    @RequestMapping(path = "/greet/{name}")
+    public void greeting(@PathVariable("name") String name, HttpServletResponse response) throws IOException {
+        String output = String.format("Hello! Welcome %s", name);
+        PrintWriter writer = response.getWriter();
+        writer.write(output);
+    }
+
 
 }
